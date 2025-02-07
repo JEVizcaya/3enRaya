@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo AJAX</title>
+</head>
+<body>
+    <h1>Ejemplo de petición AJAX</h1>
+    <button id="boton">Hacer petición AJAX</button>
+    <div id="respuesta"></div>
+
+    <script>
+        document.getElementById('boton').addEventListener('click', hacerPeticion);
+
+        function hacerPeticion() {
+            // Crear una instancia de XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Configurar la solicitud
+            xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1', true);
+
+            // Definir lo que sucede cuando la solicitud se completa con éxito
+            xhr.onload = function () {
+                console.log(xhr.status);
+                if (xhr.status === 200) {
+                    // Parsear la respuesta JSON
+                    var data = JSON.parse(xhr.responseText);
+                    
+                    // Mostrar la respuesta en la página
+                    document.getElementById('respuesta').innerHTML = '<h2>Título: ' + data.title + '</h2><p>Contenido: ' + data.body + '</p>';
+                } else {
+                    // Manejar errores
+                    document.getElementById('respuesta').innerText = 'Error en la petición AJAX';
+                }
+            };
+
+            // Definir lo que sucede en caso de error en la solicitud
+            xhr.onerror = function () {
+                document.getElementById('respuesta').innerText = 'Error en la petición AJAX';
+            };
+
+            // Enviar la solicitud
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
